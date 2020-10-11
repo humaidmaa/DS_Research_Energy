@@ -44,7 +44,7 @@ write_xlsx(x = martian, path = "martian.xlsx", col_names = TRUE)
 
 
 #the mean is the value that reduce the variance to the smallest   possible value
-
+log(2,8)
 
 
 
