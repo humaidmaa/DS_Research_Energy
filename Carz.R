@@ -1,0 +1,5 @@
+require(ggplot2)
+str(mpg)
+glimpse(mpg)
+nrow(mpg)
+table(mpg$manufacturer)
