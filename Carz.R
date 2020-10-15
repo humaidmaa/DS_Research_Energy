@@ -1,11 +1,13 @@
-
 library(tidyverse)
+library(rio)
+library(tinytex)
+library(ggplot2)
+library(data.table)
+library(scales)
+mpg = as.data.table(mpg)  
 
 mpg <- read_csv ("mpg.csv")
 glimpse(mpg)
-
-table(mpg$manufacturer)
-table(mpg$year)
 
 #analysis on highway mpg
 
@@ -79,3 +81,10 @@ auto.cty <- mpg2$cty[mpg2$is.automatic]
 t.test(manual.cty, auto.cty, alternative = "two.sided", var.equal = FALSE)
 t.test(manual.cty, auto.cty, alternative = "greater", var.equal = FALSE)
 t.test(manual.cty, auto.cty, alternative = "less", var.equal = FALSE)
+
+
+#fit 
+fit =  lm(cyl ~ hwy, mpg)
+summary(fit)
+
+          
