@@ -1,0 +1,66 @@
+---
+title: "chickwts"
+author: "Mansour"
+date: "10/17/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(tidyverse)
+library(knitr)
+```
+
+*Compare different food effects on the growth rate of chickens*
+
+```{r output="asis"  ,echo = FALSE}
+
+chickwts %>% 
+  group_by(feed) %>%
+  summarise(n = length(feed),
+            Average = mean(weight), 
+            SD = sd(weight)) %>% kable()
+  
+```
+**below plots gives more insights about food effects on chicken weights** 
+
+
+
+**PLOTS**
+
+```{r, echo=FALSE}
+ggplot(chickwts, aes( x = feed, y =  weight )) + 
+  geom_boxplot()
+```
+
+
+
+```{r, echo = FALSE}
+ggplot(chickwts,aes(x=feed, y=weight)) + 
+  geom_jitter() + 
+  stat_summary(fun.data = mean_sdl,
+               fun.args = list(mult=1),
+               color="red")
+```
+
+measure the impact of food on chicken weight 
+
+
+```{r}
+analysis <- anova(chickwts_lm)
+analysis
+```
+
+
+```{r}
+
+```
+  
+```
+
