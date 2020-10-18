@@ -87,4 +87,10 @@ t.test(manual.cty, auto.cty, alternative = "less", var.equal = FALSE)
 fit =  lm(cyl ~ hwy, Cars)
 summary(fit)
 
+#histogram of MPG in highway
+hist(Cars$hwy, main = "Data of cars with MPG driving on highways",
+     xlab = "Miles per Gallon, m/g")
 
+#histogram of MPG in city
+hist(Cars$cty, main = "Data of cars with MPG driving on City",
+     xlab = "Miles per Gallon, m/g")
