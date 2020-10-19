@@ -1,0 +1,57 @@
+# Study on Cars Fuel Consumption
+
+**Prepared by:** Mansour Alhumaid
+
+**On:** 10/15/2020
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, autodep = TRUE, fig.align = "center")
+```
+
+
+In this study, a dataset of various cars will be explored and analysis will be made on fuel consumption on highways and city driving modes (using Miles per Gallon metrics, $MPG$) of different cars' manufacturers, models, engine size, transmission type.
+
+
+
+
+
+library(tidyverse)
+library(rio)
+library(tinytex)
+library(ggplot)
+library(ggplot2)
+library(data.table)
+library(scales)
+
+```{r}
+
+# read the data 
+Cars <- read_csv ("Cars.csv")
+#str(Cars)
+```
+
+
+
+
+**Analysis on Cars MPG of different manufacturers:**
+
+
+```{r}
+
+qplot(manufacturer, data=Cars, geom="bar", fill=manufacturer)
+
+```
+
+
+
+**Analysis on number of cylinders among the cars**
+
+
+```{r}
+table(Cars$cyl)
+qplot(cyl, data=Cars, geom="bar", fill=factor(cyl))
+
+```
+
+

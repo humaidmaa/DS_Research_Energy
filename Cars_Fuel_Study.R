@@ -87,6 +87,8 @@ t.test(manual.cty, auto.cty, alternative = "less", var.equal = FALSE)
 fit =  lm(cyl ~ hwy, Cars)
 summary(fit)
 
+str(Cars)
+
 #histogram of MPG in highway
 hist(Cars$hwy, main = "Data of cars with MPG driving on highways",
      xlab = "Miles per Gallon, m/g")
@@ -94,3 +96,18 @@ hist(Cars$hwy, main = "Data of cars with MPG driving on highways",
 #histogram of MPG in city
 hist(Cars$cty, main = "Data of cars with MPG driving on City",
      xlab = "Miles per Gallon, m/g")
+
+#checking B_0 & B_1 for Highway MPG data
+Cars = lm(hwy ~ cyl + year, data = Cars)
+coef(Cars)
+
+#checking B_0 & B_1 for City MPG data
+Cars = lm(cty ~ cyl + year, data = Cars)
+coef(Cars)
+
+
+summary(auto.cty)
+summary(manual.cty)
+
+#Analysis of MPG compared to engine size
+plot(hwy ~ engine_size, data = Cars, col = "dodgerblue", pch = 20, cex = 1.5)
