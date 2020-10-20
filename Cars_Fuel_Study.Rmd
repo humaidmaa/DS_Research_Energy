@@ -10,9 +10,9 @@ knitr::opts_chunk$set(cache = TRUE, autodep = TRUE, fig.align = "center")
 ```
 
 
-In this study, a dataset of various cars will be explored and analysis will be made on fuel consumption on highways and city driving modes (using Miles per Gallon metrics, $MPG$) of different cars' manufacturers, models, engine size, transmission type.
 
 
+In this study, a dataset of various cars will be explored and analysis will be made on fuel consumption on highways and city driving modes (using Miles per Gallon metrics, $MPG$) of different cars' manufacturers, models, engine size, transmission type. $MPG$ is simply the fuel economy of an car relates distance traveled and the amount of fuel consumed
 
 
 
@@ -23,6 +23,7 @@ library(ggplot)
 library(ggplot2)
 library(data.table)
 library(scales)
+library(car, quietly = TRUE)
 
 ```{r}
 
@@ -34,7 +35,9 @@ Cars <- read_csv ("Cars.csv")
 
 
 
-**Analysis on Cars MPG of different manufacturers:**
+**Analysis on Number of Cars of Different Manufacturers in the study:**
+
+as start on the exploration process on the data, it is possible to list down all cars' manufacturers counted in the study in order to have an idea about the variety of car manufacturers in this study
 
 
 ```{r}
@@ -47,11 +50,58 @@ qplot(manufacturer, data=Cars, geom="bar", fill=manufacturer)
 
 **Analysis on number of cylinders among the cars**
 
+Here is an analysis of the number of cylinders counted for each car in the study group. Here, we notice a comparable range of 4, 6, and 8 cylinders which satisfy our need to have an equally representative sample for each cylinder type for studying the MPG later
+
+
+
 
 ```{r}
-table(Cars$cyl)
 qplot(cyl, data=Cars, geom="bar", fill=factor(cyl))
 
 ```
 
+**Analysis on Fuel consumption (MPG) on different driving modes **
+
+There are a few reasons that your car gets lower MPG in the city. First, it is because city driving is harder car than driving on the highway. This is because  engine has to work harder to accelerate / decelerate more frequently when on city streets. This requires more gas, burns fuel faster, and therefore reduces gas mileage. On the other hand, highway driving requires maintaining a constant speed. Hence, acceleration is not changed considerably on highways which makes it easier on engine than city driving since engine has to do less work to maintain the speed car’s on highways. Therefore, it is compulsory to make a clear comparison between these two separate variables in our study.
+
+
+
+
+
+**Analysis on Fuel Consumption (MPG) on Highways **
+```{r}
+qplot(hwy, data=Cars, geom="histogram", bins=30)
+```
+
+
+
+
+**Analysis on Fuel Consumption (MPG) on Citys **
+
+
+```{r}
+qplot(cty, data=Cars, geom="histogram", bins=30)
+```
+
+**Analysis of Engine size of different classes of cars vs.Fuel Consumption (MPG) on Highways  **
+
+When studying fuel consimption of cars, it is important to address the factor of engine size (i.e. displacement) and its correlation with fuel consumtion as per below: 
+
+
+```{r}
+ggplot(data = Cars) + 
+  geom_point(mapping = aes(x = engine_size, y = hwy), color='red')
+
+ggplot(data = Cars) + 
+  geom_point(mapping = aes(x = engine_size, y = hwy, color=class)) +
+  facet_wrap(~ class, nrow = 2)
+
+```
+
+From above analysis, it is clear that the rate of fuel consumption increases with engine size of different car classes,notably compact vs. SUV. However, increased consumption due to large engine size is partially offset by a specific engine efficiency that improves linearly with increasing engine size as per below graph.
+
+```{r}
+ggplot(data = Cars) + 
+  geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=class))
+```
 

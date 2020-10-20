@@ -63,7 +63,7 @@ ggplot(data = Cars) +
 
 #Separate curve for each type of drive
 ggplot(data = Cars) + 
-  geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = drv, color=drv))
+  geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=drv))
 
 #Is automatic transmission better?
 
