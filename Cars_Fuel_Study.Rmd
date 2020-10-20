@@ -1,29 +1,37 @@
-# Study on Cars Fuel Consumption
-
-**Prepared by:** Mansour Alhumaid
-
-**On:** 10/15/2020
+---
+title: "Study on Cars Fuel Consumption"
+author: "Mansour Alhumaid"
+date: "10/15/2020"
+---
 
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(cache = TRUE, autodep = TRUE, fig.align = "center")
+knitr::opts_chunk$set(cache = TRUE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE,
+                      autodep = TRUE, 
+                      fig.align = "center")
+
+library(tidyverse)
+library(rio)
+library(tinytex)
+library(ggplot2)
+library(data.table)
+library(scales)
+library(car, quietly = TRUE)
+
+
 ```
 
 
 
 
-In this study, a dataset of various cars will be explored and analysis will be made on fuel consumption on highways and city driving modes (using Miles per Gallon metrics, $MPG$) of different cars' manufacturers, models, engine size, transmission type. $MPG$ is simply the fuel economy of an car relates distance traveled and the amount of fuel consumed
+In this study, a dataset of various cars will be explored and analysis will be made on fuel consumption on highways and city driving modes (using Miles per Gallon metrics, MPG) of different cars' manufacturers, models, engine size, transmission type. MPG is simply the fuel economy of an car relates distance traveled and the amount of fuel consumed.
 
 
 
-library(tidyverse)
-library(rio)
-library(tinytex)
-library(ggplot)
-library(ggplot2)
-library(data.table)
-library(scales)
-library(car, quietly = TRUE)
+
 
 ```{r}
 
@@ -35,7 +43,7 @@ Cars <- read_csv ("Cars.csv")
 
 
 
-**Analysis on Number of Cars of Different Manufacturers in the study:**
+#### Analysis on Number of Cars of Different Manufacturers in the study
 
 as start on the exploration process on the data, it is possible to list down all cars' manufacturers counted in the study in order to have an idea about the variety of car manufacturers in this study
 
@@ -48,7 +56,7 @@ qplot(manufacturer, data=Cars, geom="bar", fill=manufacturer)
 
 
 
-**Analysis on number of cylinders among the cars**
+#### Analysis on number of cylinders among the cars
 
 Here is an analysis of the number of cylinders counted for each car in the study group. Here, we notice a comparable range of 4, 6, and 8 cylinders which satisfy our need to have an equally representative sample for each cylinder type for studying the MPG later
 
@@ -60,7 +68,7 @@ qplot(cyl, data=Cars, geom="bar", fill=factor(cyl))
 
 ```
 
-**Analysis on Fuel consumption (MPG) on different driving modes **
+#### Analysis on Fuel consumption (MPG) on different driving modes
 
 There are a few reasons that your car gets lower MPG in the city. First, it is because city driving is harder car than driving on the highway. This is because  engine has to work harder to accelerate / decelerate more frequently when on city streets. This requires more gas, burns fuel faster, and therefore reduces gas mileage. On the other hand, highway driving requires maintaining a constant speed. Hence, acceleration is not changed considerably on highways which makes it easier on engine than city driving since engine has to do less work to maintain the speed car’s on highways. Therefore, it is compulsory to make a clear comparison between these two separate variables in our study.
 
@@ -68,7 +76,8 @@ There are a few reasons that your car gets lower MPG in the city. First, it is b
 
 
 
-**Analysis on Fuel Consumption (MPG) on Highways **
+#### Analysis on Fuel Consumption (MPG) on Highways
+
 ```{r}
 qplot(hwy, data=Cars, geom="histogram", bins=30)
 ```
@@ -76,16 +85,16 @@ qplot(hwy, data=Cars, geom="histogram", bins=30)
 
 
 
-**Analysis on Fuel Consumption (MPG) on Citys **
+#### Analysis on Fuel Consumption (MPG) on Cities
 
 
 ```{r}
 qplot(cty, data=Cars, geom="histogram", bins=30)
 ```
 
-**Analysis of Engine size of different classes of cars vs.Fuel Consumption (MPG) on Highways  **
+#### Analysis of Engine size of different classes of cars vs.Fuel Consumption (MPG) on Highways
 
-When studying fuel consimption of cars, it is important to address the factor of engine size (i.e. displacement) and its correlation with fuel consumtion as per below: 
+When studying fuel consumption of cars, it is important to address the factor of engine size (i.e. displacement) and its correlation with fuel consumption as per below: 
 
 
 ```{r}
