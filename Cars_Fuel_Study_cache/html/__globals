@@ -5,4 +5,7 @@ unnamed-chunk-5	Cars	hwy	qplot
 unnamed-chunk-6	Cars	cty	qplot
 unnamed-chunk-7	~	aes	Cars	class	engine_size	facet_wrap	geom_point	ggplot	hwy
 unnamed-chunk-8	aes	Cars	class	engine_size	geom_smooth	ggplot	hwy
+<<<<<<< HEAD
 unnamed-chunk-9	aes	Cars	class	engine_size	geom_smooth	ggplot	hwy
+=======
+>>>>>>> 52a35e3654990b6c7ae66cb35e51f6ed2dc2030f

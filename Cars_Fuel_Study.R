@@ -1,113 +1,143 @@
+# Title
+# Name
+# Date
+# Description (i.e. what kind of data? 
+# what is the research question being asked here?)
+
+# Data From:
+# https://www.kaggle.com/??????????
+
+# load packages
 library(tidyverse)
 library(rio)
-library(tinytex)
-library(ggplot2)
-library(data.table)
 library(scales)
- 
-
-Cars <- read_csv ("Cars.csv")
-glimpse(Cars)
-Cars = as.data.table(Cars) 
-#analysis on highway Cars
-
-summary(Cars$hwy)
-
-qplot(hwy, data=Cars, geom="histogram", bins=30)
-
-#analysis on city Cars
-
-summary(Cars$cty)
-qplot(cty, data=Cars, geom="histogram", bins=30)
-
-#analysis on Cars of different car manufacturers
-
-qplot(manufacturer, data=Cars, geom="bar", fill=manufacturer)
-
-#analysis on number of cylinders among the cars
-table(Cars$cyl)
-qplot(cyl, data=Cars, geom="bar", fill=factor(cyl))
+library(GGally)
 
 
-#analysis on Wheel drive types
-qplot(drv, data=Cars, geom="bar", fill=drv)
+# load the data
+cars <- read_csv("Cars.csv")
 
+# explore
+glimpse(cars)
+summary(cars$hwy)
 
-#analysis on Fuel types
-qplot(fl, data=Cars, geom="bar", fill=fl)
+# SPLOM (Scatter plot matrix) but with proper data types:
+cars %>% 
+  select(-X1, -X1_1, -model, -manufacturer) %>% 
+  ggpairs()
 
+# Analysis on highway cars
+#qplot(hwy, data=cars, geom="histogram", bins=30)
+ggplot()
 
-#analysis Vehicle Class
-table(Cars$class)
-qplot(class, data=Cars, geom="bar", fill=class)
+# Analysis on city cars
+summary(cars$cty)
+#qplot(cty, data=cars, geom="histogram", bins=30)
+ggplot()
 
+# Analysis on cars of different car manufacturers
+#qplot(manufacturer, data=cars, geom="bar", fill=manufacturer)
+ggplot()
 
-#Engine_size vs highway efficiency
-ggplot(data = Cars) + 
-  geom_point(mapping = aes(x = engine_size, y = hwy), color='red')
+# Analysis on number of cylinders among the cars
+table(cars$cyl)
+#qplot(cyl, data=cars, geom="bar", fill=factor(cyl))
+ggplot()
 
-ggplot(data = Cars) + 
-  geom_point(mapping = aes(x = hwy, y = hwy, color=class)) +
+# Analysis on Wheel drive types
+# qplot(drv, data=cars, geom="bar", fill=drv)
+ggplot()
+
+# Analysis on Fuel types
+# qplot(fl, data=cars, geom="bar", fill=fl)
+ggplot()
+
+# Analysis Vehicle Class
+table(cars$class)
+#qplot(class, data=cars, geom="bar", fill=class)
+ggplot()
+
+# Engine_size vs highway efficiency
+ggplot(cars, aes(engine_size, hwy)) + 
+  geom_point(color = "#cb181d", alpha = 0.4, shape = 16)
+
+# highlight overlapping points by size:
+ggplot(cars, aes(engine_size, hwy)) + 
+  stat_sum(color = "#cb181d", alpha = 0.4, shape = 16) +
+  scale_size_area(limits = c(1,10), breaks = c(1, 5, 10), max_size = 7)
+
+# by color
+ggplot(cars, aes(engine_size, hwy, color = class)) + 
+  geom_point()
+
+# By plot:
+ggplot(cars, aes(engine_size, hwy)) + 
+  geom_point() +
   facet_wrap(~ class, nrow = 2)
 
-
-#number of cylinders and type of drive
-ggplot(data = Cars) + 
+# Number of cylinders and type of drive
+ggplot(data = cars) + 
   geom_point(mapping = aes(x = engine_size, y = hwy, color=drv)) +
   facet_grid(drv ~ cyl)
 
-#Estimating a smooth curve for the relationship between engine_size and highway mileage
+# Estimating a smooth curve for the relationship between engine_size and highway mileage
+ggplot(cars, aes(engine_size, hwy)) + 
+  geom_point(alpha = 0.3) +
+  geom_smooth()
 
-ggplot(data = Cars) + 
-  geom_smooth(mapping = aes(x = engine_size, y = hwy))
-
-#Separate curve for each type of drive
-ggplot(data = Cars) + 
+# Separate curve for each type of drive
+ggplot(data = cars) + 
   geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=drv))
 
-#Is automatic transmission better?
+# Is automatic transmission better than manual?
+# according to what measurement? fuel efficienty in city
 
-Cars2 <- Cars
-Cars2$is.automatic <- startsWith(Cars2$trans, 'auto')
-Cars2$transmission <- ifelse(Cars2$is.automatic, 'auto', 'man')
-table(Cars2$trans)
+cars2 <- cars
+cars2$is.automatic <- startsWith(cars2$trans, 'auto')
+cars2$transmission <- ifelse(cars2$is.automatic, 'auto', 'man')
+table(cars2$trans)
 
-table(Cars2$is.automatic)
-qplot(transmission, cty, data=Cars2, geom='boxplot', fill=transmission)
+table(cars2$is.automatic)
+qplot(transmission, cty, data=cars2, geom='boxplot', fill=transmission)
+
+
+
+
+
 
 # Analysis by using p-value
-manual.cty <- Cars2$cty[!Cars2$is.automatic]
-auto.cty <- Cars2$cty[Cars2$is.automatic]
+manual.cty <- cars2$cty[!cars2$is.automatic]
+auto.cty <- cars2$cty[cars2$is.automatic]
 t.test(manual.cty, auto.cty, alternative = "two.sided", var.equal = FALSE)
 t.test(manual.cty, auto.cty, alternative = "greater", var.equal = FALSE)
 t.test(manual.cty, auto.cty, alternative = "less", var.equal = FALSE)
 
 
 #fit 
-fit =  lm(cyl ~ hwy, Cars)
+fit =  lm(cyl ~ hwy, cars)
 summary(fit)
 
-str(Cars)
+str(cars)
 
 #histogram of MPG in highway
-hist(Cars$hwy, main = "Data of cars with MPG driving on highways",
+hist(cars$hwy, main = "Data of cars with MPG driving on highways",
      xlab = "Miles per Gallon, m/g")
 
 #histogram of MPG in city
-hist(Cars$cty, main = "Data of cars with MPG driving on City",
+hist(cars$cty, main = "Data of cars with MPG driving on City",
      xlab = "Miles per Gallon, m/g")
 
 #checking B_0 & B_1 for Highway MPG data
-Cars = lm(hwy ~ cyl + year, data = Cars)
-coef(Cars)
+cars = lm(hwy ~ cyl + year, data = cars)
+coef(cars)
 
 #checking B_0 & B_1 for City MPG data
-Cars = lm(cty ~ cyl + year, data = Cars)
-coef(Cars)
+cars = lm(cty ~ cyl + year, data = cars)
+coef(cars)
 
 
 summary(auto.cty)
 summary(manual.cty)
 
 #Analysis of MPG compared to engine size
-plot(hwy ~ engine_size, data = Cars, col = "dodgerblue", pch = 20, cex = 1.5)
+plot(hwy ~ engine_size, data = cars, col = "dodgerblue", pch = 20, cex = 1.5)
