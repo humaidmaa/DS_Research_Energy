@@ -15,11 +15,10 @@ knitr::opts_chunk$set(cache = TRUE,
 
 library(tidyverse)
 library(rio)
-library(tinytex)
-library(ggplot2)
-library(data.table)
 library(scales)
-library(car, quietly = TRUE)
+library(GGally)
+library(ggplot2)
+
 
 
 ```
@@ -49,8 +48,10 @@ as start on the exploration process on the data, it is possible to list down all
 
 
 ```{r}
-
-qplot(manufacturer, data=Cars, geom="bar", fill=manufacturer)
+ggplot(cars, aes(manufacturer)) +
+geom_bar(aes(fill=manufacturer), width = 0.5) + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  labs(title="Car count across Manufacturers")
 
 ```
 
@@ -64,7 +65,8 @@ Here is an analysis of the number of cylinders counted for each car in the study
 
 
 ```{r}
-qplot(cyl, data=Cars, geom="bar", fill=factor(cyl))
+ggplot(cars, aes(cyl)) + geom_histogram()
+
 
 ```
 
@@ -75,22 +77,13 @@ There are a few reasons that your car gets lower MPG in the city. First, it is b
 
 
 
+#### Effect of Automatic transmission vs. manual transmission on Fuel consumptionin city driving modes
 
-#### Analysis on Fuel Consumption (MPG) on Highways
-
-```{r}
-qplot(hwy, data=Cars, geom="histogram", bins=30)
-```
+fuel efficiency depends on transmission type. With a manual transmission, drivers use judgment to decide when the engine’s ready to move up or down through the gear, drivers make sure to stay in the most efficient range of revs and hence improving fuel efficiency
 
 
 
 
-#### Analysis on Fuel Consumption (MPG) on Cities
-
-
-```{r}
-qplot(cty, data=Cars, geom="histogram", bins=30)
-```
 
 #### Analysis of Engine size of different classes of cars vs.Fuel Consumption (MPG) on Highways
 
@@ -113,4 +106,7 @@ From above analysis, it is clear that the rate of fuel consumption increases wit
 ggplot(data = Cars) + 
   geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=class))
 ```
+
+
+
 

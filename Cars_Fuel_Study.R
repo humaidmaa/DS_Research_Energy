@@ -1,11 +1,11 @@
-# Title
-# Name
-# Date
-# Description (i.e. what kind of data? 
-# what is the research question being asked here?)
+# Title Car Fuel Consumption Study
+# Name: Mansour Alhumaid
+# Date: 15 Oct 2020
+# This 
+# the data is technical spec of cars showing fuel consumption rate for each car of different manufactureres. The dataset is downloaded from Kaggle
 
 # Data From:
-# https://www.kaggle.com/??????????
+# https://www.kaggle.com/gauravshasae78/car-mpg
 
 # load packages
 library(tidyverse)
@@ -61,7 +61,7 @@ ggplot()
 ggplot(cars, aes(engine_size, hwy)) + 
   geom_point(color = "#cb181d", alpha = 0.4, shape = 16)
 
-# highlight overlapping points by size:
+# Engine_size vs highway efficiency (bubble chart)
 ggplot(cars, aes(engine_size, hwy)) + 
   stat_sum(color = "#cb181d", alpha = 0.4, shape = 16) +
   scale_size_area(limits = c(1,10), breaks = c(1, 5, 10), max_size = 7)
@@ -89,21 +89,23 @@ ggplot(cars, aes(engine_size, hwy)) +
 ggplot(data = cars) + 
   geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=drv))
 
-# Is automatic transmission better than manual?
-# according to what measurement? fuel efficienty in city
+# Is automatic transmission better than manual? according to what measurement? fuel efficient in city
 
-cars2 <- cars
+cars2 <- Cars
 cars2$is.automatic <- startsWith(cars2$trans, 'auto')
 cars2$transmission <- ifelse(cars2$is.automatic, 'auto', 'man')
 table(cars2$trans)
 
 table(cars2$is.automatic)
-qplot(transmission, cty, data=cars2, geom='boxplot', fill=transmission)
+ggplot(cars2, aes(x=transmission, y=cty, fill=transmission)) +
+  geom_boxplot()
 
-
-
-
-
+# 2nd attempt Is automatic transmission better than manual? according to what measurement? fuel efficient in city
+cars_m_a <- cars2
+manual.cty <- cars2$cty[!cars2$is.automatic]
+auto.cty <- cars2$cty[cars2$is.automatic]
+ggplot(cars_m_a, aes(x=transmission, y=cty, fill=transmission)) +
+  geom_boxplot()
 
 # Analysis by using p-value
 manual.cty <- cars2$cty[!cars2$is.automatic]
