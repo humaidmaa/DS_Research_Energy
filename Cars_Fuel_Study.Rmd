@@ -1,6 +1,6 @@
 ---
 title: "Study on Cars Fuel Consumption"
-author: "Mansour Alhumaid"
+author: "Mansour  Alhumaid"
 date: "10/15/2020"
 ---
 
