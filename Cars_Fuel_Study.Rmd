@@ -35,8 +35,7 @@ In this study, a dataset of various cars will be explored and analysis will be m
 ```{r}
 
 # read the data 
-Cars <- read_csv ("Cars.csv")
-#str(Cars)
+cars <- read_csv ("data/cars.csv")
 ```
 
 
@@ -91,10 +90,10 @@ When studying fuel consumption of cars, it is important to address the factor of
 
 
 ```{r}
-ggplot(data = Cars) + 
+ggplot(data = cars) + 
   geom_point(mapping = aes(x = engine_size, y = hwy), color='red')
 
-ggplot(data = Cars) + 
+ggplot(data = cars) + 
   geom_point(mapping = aes(x = engine_size, y = hwy, color=class)) +
   facet_wrap(~ class, nrow = 2)
 
@@ -103,7 +102,7 @@ ggplot(data = Cars) +
 From above analysis, it is clear that the rate of fuel consumption increases with engine size of different car classes,notably compact vs. SUV. However, increased consumption due to large engine size is partially offset by a specific engine efficiency that improves linearly with increasing engine size as per below graph.
 
 ```{r}
-ggplot(data = Cars) + 
+ggplot(data = cars) + 
   geom_smooth(mapping = aes(x = engine_size, y = hwy, linetype = , color=class))
 ```
 
